@@ -7,17 +7,19 @@ export default function Header({ title }: { title: string }) {
   const pathname = usePathname();
   const isRoot = pathname === "/";
   return (
-    <div className="p-10 bg-green-600 text-white capitalize flex items-center gap-4 ">
+    <div className="p-2 bg-green-600 text-white capitalize flex items-center gap-4 ">
       {!isRoot && (
-        <button
-          onClick={() => router.back()}
-          className="text-white"
-          aria-label="Go back"
-        >
-          <FaArrowLeft className="font-2xl" />
-        </button>
+        <div>
+          <button
+            onClick={() => router.back()}
+            className="text-white m-1"
+            aria-label="Go back"
+          >
+            <FaArrowLeft className="font-2xl" />
+          </button>
+          <span className="m-4 text-2xl">{title}</span>
+        </div>
       )}
-      <span>{title}</span>
     </div>
   );
 }

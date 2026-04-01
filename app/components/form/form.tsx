@@ -108,7 +108,7 @@ const Form = ({ tableName }: FormProps) => {
         </div>
       )}
 
-      {loading && <p className="m-4">Loading...</p>}
+      {loading && <p className="m-4"></p>}
 
       {!loading && items.length === 0 && (
         <p className="m-4">No checklist items found.</p>
