@@ -1,9 +1,5 @@
 import { Pool } from "pg";
 
-// Load environment variables from .env.local
-import dotenv from "dotenv";
-dotenv.config({ path: [".env.local", ".env"] });
-
 let pool: Pool | null = null;
 
 export function getPool(): Pool {

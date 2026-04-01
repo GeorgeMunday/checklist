@@ -4,7 +4,6 @@ export async function GET(
   _request: Request,
   { params }: { params: Promise<{ formName: string }> },
 ) {
-  const pool = getPool();
   const { formName } = await params;
 
   if (!formName) {
@@ -21,20 +20,23 @@ export async function GET(
     });
   }
 
-  const client = await pool.connect();
   try {
-    const result = await client.query(`SELECT * FROM ${formName}`);
-    return new Response(JSON.stringify(result.rows), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    const pool = getPool();
+    const client = await pool.connect();
+    try {
+      const result = await client.query(`SELECT * FROM ${formName}`);
+      return new Response(JSON.stringify(result.rows), {
+        status: 200,
+        headers: { "Content-Type": "application/json" },
+      });
+    } finally {
+      client.release();
+    }
   } catch (err) {
     console.error("Database query failed:", err);
     return new Response(JSON.stringify({ error: "Database query failed" }), {
       status: 500,
       headers: { "Content-Type": "application/json" },
     });
-  } finally {
-    client.release();
   }
 }
