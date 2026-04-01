@@ -1,9 +1,10 @@
-import { pool } from "@/server";
+import { getPool } from "@/server";
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ formName: string }> },
 ) {
+  const pool = getPool();
   const { formName } = await params;
 
   if (!formName) {

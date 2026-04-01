@@ -1,7 +1,8 @@
-import { pool } from "@/server";
+import { getPool } from "@/server";
 
 export async function POST(request: Request) {
   try {
+    const pool = getPool();
     const { table, id } = await request.json();
     if (!table || typeof id !== "number") {
       return new Response(

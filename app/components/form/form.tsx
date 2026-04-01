@@ -9,13 +9,30 @@ type ChecklistItem = {
   completed: boolean;
 };
 
+async function readJsonSafely<T>(res: Response): Promise<T | null> {
+  const text = await res.text();
+  if (!text) return null;
+
+  try {
+    return JSON.parse(text) as T;
+  } catch {
+    return null;
+  }
+}
+
 async function getList(tableName: string): Promise<ChecklistItem[]> {
   const res = await fetch(`/api/getList/${encodeURIComponent(tableName)}`);
 
-  const data = await res.json();
+  const data = await readJsonSafely<ChecklistItem[] | { error?: string }>(res);
 
   if (!res.ok) {
-    throw new Error(data?.error || "Failed to fetch checklist");
+    throw new Error(
+      (data && "error" in data && data.error) || "Failed to fetch checklist",
+    );
+  }
+
+  if (!Array.isArray(data)) {
+    throw new Error("Invalid checklist response");
   }
 
   return data;
@@ -82,11 +99,15 @@ const Form = ({ tableName }: FormProps) => {
         body: JSON.stringify({ table: tableName, id }),
       });
       if (!res.ok) {
-        const data = await res.json();
+        const data = await readJsonSafely<{ error?: string }>(res);
         throw new Error(data?.error || "Failed to update item");
       }
 
-      const updated = await res.json();
+      const updated = await readJsonSafely<Partial<ChecklistItem>>(res);
+      if (!updated) {
+        throw new Error("Invalid update response");
+      }
+
       setItems((prev) =>
         prev.map((item) => (item.id === id ? { ...item, ...updated } : item)),
       );
