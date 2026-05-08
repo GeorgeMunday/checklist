@@ -129,7 +129,7 @@ export default function Home() {
               <span className="w-2 h-6 bg-black inline-block rounded-sm"></span>
               Places to Visit
             </h2>
-            <div className="grid grid-cols-4 gap-4 sm:gap-6">
+            <div className="grid grid-cols-2 gap-4 sm:gap-6">
               {cities.map((city, i) => (
                 <Link
                   key={i}
