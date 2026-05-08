@@ -30,13 +30,39 @@ export async function GET(
       );
 
       if (!tableExists.rows[0]?.exists) {
-        return new Response(JSON.stringify({ error: "Table not found" }), {
-          status: 404,
-          headers: { "Content-Type": "application/json" },
-        });
+        // Create the table if it doesn't exist
+        await client.query(`
+          CREATE TABLE ${formName} (
+            id SERIAL PRIMARY KEY,
+            item TEXT NOT NULL,
+            completed BOOLEAN DEFAULT false
+          )
+        `);
+
+        // Seed with essential travel items
+        const defaultItems = [
+          "Passport / ID",
+          "Tickets / Boarding Passes",
+          "Wallet (Cash/Cards)",
+          "Phone & Charger",
+          "Universal Power Adapter",
+          "Toiletries & Medications",
+          "Changes of Clothes",
+          "Comfortable Walking Shoes",
+          "Reusable Water Bottle",
+          "Weather-appropriate Gear (Umbrella/Sunglasses)",
+        ];
+
+        for (const item of defaultItems) {
+          await client.query(`INSERT INTO ${formName} (item) VALUES ($1)`, [
+            item,
+          ]);
+        }
       }
 
-      const result = await client.query(`SELECT * FROM ${formName}`);
+      const result = await client.query(
+        `SELECT * FROM ${formName} ORDER BY id ASC`,
+      );
       return new Response(JSON.stringify(result.rows), {
         status: 200,
         headers: { "Content-Type": "application/json" },
