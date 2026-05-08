@@ -127,7 +127,7 @@ export default function Home() {
           <div className="mt-14 mb-8">
             <h2 className="text-2xl font-extrabold text-black mb-6 flex items-center gap-2">
               <span className="w-2 h-6 bg-black inline-block rounded-sm"></span>
-              Places to Visit
+              Places to Visit For
             </h2>
             <div className="grid grid-cols-2 gap-4 sm:gap-6">
               {cities.map((city, i) => (
