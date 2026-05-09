@@ -139,7 +139,7 @@ const Form = ({ tableName }: FormProps) => {
 
       {loading && (
         <div className="flex items-center justify-center flex-1">
-          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-green-600"></div>
+          <div className="animate-spin rounded-full h-12 w-12 border-b-6 border-black"></div>
         </div>
       )}
 
@@ -164,7 +164,7 @@ const Form = ({ tableName }: FormProps) => {
             </div>
             <div className="w-full bg-gray-200 rounded-full h-2 sm:h-3 overflow-hidden shadow-inner">
               <div
-                className="bg-green-600 h-full transition-all duration-500 ease-out"
+                className="bg-black h-full transition-all duration-500 ease-out"
                 style={{ width: `${completionPercentage}%` }}
               ></div>
             </div>
@@ -187,7 +187,7 @@ const Form = ({ tableName }: FormProps) => {
                       checked={item.completed || false}
                       value={item.id}
                       onChange={() => handleCheck(item.id)}
-                      className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer accent-green-600 rounded flex-shrink-0"
+                      className="w-5 h-5 sm:w-6 sm:h-6 cursor-pointer accent-black rounded "
                     />
                     <span
                       className={`flex-1 text-base sm:text-lg min-w-0 font-medium ${
@@ -199,7 +199,7 @@ const Form = ({ tableName }: FormProps) => {
                       {item.item}
                     </span>
                     {item.completed && (
-                      <span className="text-green-600 text-lg sm:text-xl font-bold flex-shrink-0">
+                      <span className="text-black text-lg sm:text-xl font-bold ">
                         Done
                       </span>
                     )}
