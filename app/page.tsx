@@ -4,26 +4,11 @@ import Link from "next/link";
 import Header from "./components/header/header";
 import { useState } from "react";
 import { motion } from "framer-motion";
-
-const cities = [
-  { name: "London St Pancras" },
-  { name: "Amsterdam" },
-  { name: "Berlin" },
-  { name: "Prague" },
-  { name: "Krakow" },
-  { name: "Budapest" },
-  { name: "Ljubljana" },
-  { name: "Split" },
-  { name: "Overnight Ferry" },
-  { name: "Rome" },
-  { name: "Florence" },
-  { name: "Nice" },
-  { name: "Paris" },
-  { name: "London St Pancras" },
-];
+import cities from "@/data/cities.json";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const [showPlaces, setShowPlaces] = useState(false);
 
   const filteredCities = cities.filter((city) =>
     city.name.toLowerCase().includes(searchQuery.toLowerCase()),
@@ -118,30 +103,22 @@ export default function Home() {
                     <p className="text-gray-500 font-bold text-sm mt-0.5">
                       Stop {i + 1}
                     </p>
+                    <p className="text-gray-400 font-medium text-sm mt-1">
+                      Arrive: {city.arrive} ({city.arriveDate}) - Leave:{" "}
+                      {city.leave} ({city.leaveDate})
+                    </p>
+                    <div className="mt-3">
+                      <Link
+                        href={`/places/${city.name.toLowerCase().replace(/\s+/g, "_")}`}
+                      >
+                        <span className="inline-block bg-black text-white px-4 py-2 rounded-lg font-bold text-sm hover:bg-gray-800 transition-colors">
+                          More info
+                        </span>
+                      </Link>
+                    </div>
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-
-          <div className="mt-14 mb-8">
-            <h2 className="text-2xl font-extrabold text-black mb-6 flex items-center gap-2">
-              <span className="w-2 h-6 bg-black inline-block rounded-sm"></span>
-              Places to Visit For
-            </h2>
-            <div className="grid grid-cols-2 gap-4 sm:gap-6">
-              {cities.map((city, i) => (
-                <Link
-                  key={i}
-                  href={`/places/${city.name.toLowerCase().replace(/\s+/g, "_")}`}
-                >
-                  <div className="bg-white rounded-3xl border border-gray-200 p-5 sm:p-6 shadow-sm transition-colors cursor-pointer h-full flex items-center justify-center text-center">
-                    <h3 className="text-lg sm:text-xl font-extrabold text-black mb-0">
-                      {city.name}
-                    </h3>
-                  </div>
-                </Link>
-              ))}
             </div>
           </div>
         </div>
