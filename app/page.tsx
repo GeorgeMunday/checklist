@@ -4,7 +4,7 @@ import Link from "next/link";
 import Header from "./components/header/header";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import cities from "@/data/cities.json";
+import cities from "@/data/cities";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
